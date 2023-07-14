@@ -1,0 +1,22 @@
+server:
+  port: 10010
+  tomcat:
+    max-http-form-post-size: 50MB
+  max-http-header-size: 50MB
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://39.96.51.119:3306/qyxtql?serverTimezone=Asia/Shanghai
+    username: qyxtql
+    password: 8A5WzScmJkeBfy6R
+  http:
+    encoding:
+      charset: utf-8
+      force: true
+jwt:
+  expire: 604800
+  secret: JWT_TOKEN_SHIRO
+mybatis:
+  typeAliasesPackage: cn.net.luoma.aicaresystemserver.entity
+  mapperLocations: classpath:Mapper/*.xml
+

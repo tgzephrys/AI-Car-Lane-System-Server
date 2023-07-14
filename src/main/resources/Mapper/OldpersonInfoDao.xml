@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.net.luoma.aicarsystemserver.dao.OldpersonInfoDao">
+
+    <resultMap type="cn.net.luoma.aicarsystemserver.entity.OldpersonInfo" id="OldpersonInfoMap">
+        <result property="id" column="ID" jdbcType="INTEGER"/>
+        <result property="orgId" column="ORG_ID" jdbcType="INTEGER"/>
+        <result property="clientId" column="CLIENT_ID" jdbcType="INTEGER"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="gender" column="gender" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="idCard" column="id_card" jdbcType="VARCHAR"/>
+        <result property="birthday" column="birthday" jdbcType="TIMESTAMP"/>
+        <result property="checkinDate" column="checkin_date" jdbcType="TIMESTAMP"/>
+        <result property="checkoutDate" column="checkout_date" jdbcType="TIMESTAMP"/>
+        <result property="imgsetDir" column="imgset_dir" jdbcType="VARCHAR"/>
+        <result property="profilePhoto" column="profile_photo" jdbcType="VARCHAR"/>
+        <result property="roomNumber" column="room_number" jdbcType="VARCHAR"/>
+        <result property="firstguardianName" column="firstguardian_name" jdbcType="VARCHAR"/>
+        <result property="firstguardianRelationship" column="firstguardian_relationship" jdbcType="VARCHAR"/>
+        <result property="firstguardianPhone" column="firstguardian_phone" jdbcType="VARCHAR"/>
+        <result property="firstguardianWechat" column="firstguardian_wechat" jdbcType="VARCHAR"/>
+        <result property="secondguardianName" column="secondguardian_name" jdbcType="VARCHAR"/>
+        <result property="secondguardianRelationship" column="secondguardian_relationship" jdbcType="VARCHAR"/>
+        <result property="secondguardianPhone" column="secondguardian_phone" jdbcType="VARCHAR"/>
+        <result property="secondguardianWechat" column="secondguardian_wechat" jdbcType="VARCHAR"/>
+        <result property="healthState" column="health_state" jdbcType="VARCHAR"/>
+        <result property="description" column="DESCRIPTION" jdbcType="VARCHAR"/>
+        <result property="isactive" column="ISACTIVE" jdbcType="VARCHAR"/>
+        <result property="created" column="CREATED" jdbcType="TIMESTAMP"/>
+        <result property="createby" column="CREATEBY" jdbcType="INTEGER"/>
+        <result property="updated" column="UPDATED" jdbcType="TIMESTAMP"/>
+        <result property="updateby" column="UPDATEBY" jdbcType="INTEGER"/>
+        <result property="remove" column="REMOVE" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="OldpersonInfoMap">
+        select
+          ID, ORG_ID, CLIENT_ID, username, gender, phone, id_card, birthday, checkin_date, checkout_date, imgset_dir, profile_photo, room_number, firstguardian_name, firstguardian_relationship, firstguardian_phone, firstguardian_wechat, secondguardian_name, secondguardian_relationship, secondguardian_phone, secondguardian_wechat, health_state, DESCRIPTION, ISACTIVE, CREATED, CREATEBY, UPDATED, UPDATEBY, REMOVE
+        from qyxtql.oldperson_info
+        where ID = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="OldpersonInfoMap">
+        select
+          ID, ORG_ID, CLIENT_ID, username, gender, phone, id_card, birthday, checkin_date, checkout_date, imgset_dir, profile_photo, room_number, firstguardian_name, firstguardian_relationship, firstguardian_phone, firstguardian_wechat, secondguardian_name, secondguardian_relationship, secondguardian_phone, secondguardian_wechat, health_state, DESCRIPTION, ISACTIVE, CREATED, CREATEBY, UPDATED, UPDATEBY, REMOVE
+        from qyxtql.oldperson_info
+        limit #{offset}, #{limit}
+    </select>
+
+
+    <select id="queryByName" resultMap="OldpersonInfoMap">
+        select *
+        from qyxtql.oldperson_info
+        where username = #{username}
+    </select>
+
+    <select id="queryByCard" resultMap="OldpersonInfoMap">
+         select *
+        from qyxtql.oldperson_info
+        where id_card = #{id_card}
+    </select>
+
+    <select id="count" resultType="java.lang.Integer">
+        select count(*) as number
+        from oldperson_info
+    </select>
+    <select id="countByAge" resultType="java.util.Map">
+        select numbers.number
+        from (select count(*) as number
+              from  oldperson_info
+              where TIMESTAMPDIFF(YEAR,birthday,NOW()) &lt;50
+              union  all
+              select count(*) as number
+              from  oldperson_info
+              where TIMESTAMPDIFF(YEAR,birthday,NOW()) between 50 and 60
+              union  all
+              select count(*) as number
+              from  oldperson_info
+              where TIMESTAMPDIFF(YEAR,birthday,NOW()) between 61 and 70
+              union  all
+              select count(*) as number
+              from  oldperson_info
+              where TIMESTAMPDIFF(YEAR,birthday,NOW()) between 71 and 80
+              union  all
+              select count(*) as number
+              from  oldperson_info
+              where TIMESTAMPDIFF(YEAR,birthday,NOW()) >80) numbers
+    </select>
+    <select id="countBySex" resultType="java.util.Map">
+        select gender, count(*) as number
+        from oldperson_info
+        group by gender
+    </select>
+    <select id="countByDate" resultType="java.util.Map">
+        select numbers.number
+        from (select count(*) as number
+              from  oldperson_info
+              where DATE_FORMAT(checkin_date,'%Y-%m') ='2020-01'
+              union  all
+              select count(*) as number
+              from  oldperson_info
+              where DATE_FORMAT(checkin_date,'%Y-%m') ='2020-02'
+              union  all
+              select count(*) as number
+              from  oldperson_info
+              where DATE_FORMAT(checkin_date,'%Y-%m') ='2020-03'
+              union  all
+              select count(*) as number
+              from  oldperson_info
+              where DATE_FORMAT(checkin_date,'%Y-%m') ='2020-04'
+              union  all
+              select count(*) as number
+              from  oldperson_info
+              where DATE_FORMAT(checkin_date,'%Y-%m') ='2020-05'
+              union  all
+              select count(*) as number
+              from  oldperson_info
+              where DATE_FORMAT(checkin_date,'%Y-%m') ='2020-06'
+              union  all
+              select count(*) as number
+              from  oldperson_info
+              where DATE_FORMAT(checkin_date,'%Y-%m') ='2020-07') numbers
+    </select>
+    <select id="countByState" resultType="java.util.Map">
+        select numbers.number
+        from  ( select count(*) as number
+                from oldperson_info
+                where health_state = '健康'
+                union all
+                select count(*) as number
+                from oldperson_info
+                where health_state = '良好'
+                union all
+                select count(*) as number
+                from oldperson_info
+                where health_state = '一般'
+                union all
+                select count(*) as number
+                from oldperson_info
+                where health_state = '差'
+                union all
+                select count(*) as number
+                from oldperson_info
+                where health_state = '很差') numbers
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into qyxtql.oldperson_info(ORG_ID, CLIENT_ID, username, gender, phone, id_card, birthday, checkin_date, checkout_date, imgset_dir, profile_photo, room_number, firstguardian_name, firstguardian_relationship, firstguardian_phone, firstguardian_wechat, secondguardian_name, secondguardian_relationship, secondguardian_phone, secondguardian_wechat, health_state, DESCRIPTION, ISACTIVE, CREATED, CREATEBY, UPDATED, UPDATEBY, REMOVE)
+        values (#{orgId}, #{clientId}, #{username}, #{gender}, #{phone}, #{idCard}, #{birthday}, #{checkinDate}, #{checkoutDate}, #{imgsetDir}, #{profilePhoto}, #{roomNumber}, #{firstguardianName}, #{firstguardianRelationship}, #{firstguardianPhone}, #{firstguardianWechat}, #{secondguardianName}, #{secondguardianRelationship}, #{secondguardianPhone}, #{secondguardianWechat}, #{healthState}, #{description}, #{isactive}, #{created}, #{createby}, #{updated}, #{updateby}, #{remove})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update qyxtql.oldperson_info
+        <set>
+            <if test="orgId != null">
+                ORG_ID = #{orgId},
+            </if>
+            <if test="clientId != null">
+                CLIENT_ID = #{clientId},
+            </if>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="gender != null and gender != ''">
+                gender = #{gender},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="idCard != null and idCard != ''">
+                id_card = #{idCard},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday},
+            </if>
+            <if test="checkinDate != null">
+                checkin_date = #{checkinDate},
+            </if>
+            <if test="checkoutDate != null">
+                checkout_date = #{checkoutDate},
+            </if>
+            <if test="imgsetDir != null and imgsetDir != ''">
+                imgset_dir = #{imgsetDir},
+            </if>
+            <if test="profilePhoto != null and profilePhoto != ''">
+                profile_photo = #{profilePhoto},
+            </if>
+            <if test="roomNumber != null and roomNumber != ''">
+                room_number = #{roomNumber},
+            </if>
+            <if test="firstguardianName != null and firstguardianName != ''">
+                firstguardian_name = #{firstguardianName},
+            </if>
+            <if test="firstguardianRelationship != null and firstguardianRelationship != ''">
+                firstguardian_relationship = #{firstguardianRelationship},
+            </if>
+            <if test="firstguardianPhone != null and firstguardianPhone != ''">
+                firstguardian_phone = #{firstguardianPhone},
+            </if>
+            <if test="firstguardianWechat != null and firstguardianWechat != ''">
+                firstguardian_wechat = #{firstguardianWechat},
+            </if>
+            <if test="secondguardianName != null and secondguardianName != ''">
+                secondguardian_name = #{secondguardianName},
+            </if>
+            <if test="secondguardianRelationship != null and secondguardianRelationship != ''">
+                secondguardian_relationship = #{secondguardianRelationship},
+            </if>
+            <if test="secondguardianPhone != null and secondguardianPhone != ''">
+                secondguardian_phone = #{secondguardianPhone},
+            </if>
+            <if test="secondguardianWechat != null and secondguardianWechat != ''">
+                secondguardian_wechat = #{secondguardianWechat},
+            </if>
+            <if test="healthState != null and healthState != ''">
+                health_state = #{healthState},
+            </if>
+            <if test="description != null and description != ''">
+                DESCRIPTION = #{description},
+            </if>
+            <if test="isactive != null and isactive != ''">
+                ISACTIVE = #{isactive},
+            </if>
+            <if test="created != null">
+                CREATED = #{created},
+            </if>
+            <if test="createby != null">
+                CREATEBY = #{createby},
+            </if>
+            <if test="updated != null">
+                UPDATED = #{updated},
+            </if>
+            <if test="updateby != null">
+                UPDATEBY = #{updateby},
+            </if>
+            <if test="remove != null and remove != ''">
+                REMOVE = #{remove},
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from qyxtql.oldperson_info where ID = #{id}
+    </delete>
+
+</mapper>

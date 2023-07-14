@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.net.luoma.aicarsystemserver.dao.EventInfoDao">
+
+    <resultMap type="cn.net.luoma.aicarsystemserver.entity.EventInfo" id="EventInfoMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="eventType" column="event_type" jdbcType="INTEGER"/>
+        <result property="eventDate" column="event_date" jdbcType="TIMESTAMP"/>
+        <result property="eventLocation" column="event_location" jdbcType="VARCHAR"/>
+        <result property="eventDesc" column="event_desc" jdbcType="VARCHAR"/>
+        <result property="oldpersonId" column="oldperson_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="EventInfoMap">
+        select
+          id, event_type, event_date, event_location, event_desc, oldperson_id
+        from qyxtql.event_info
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="EventInfoMap">
+        select
+          id, event_type, event_date, event_location, event_desc, oldperson_id
+        from qyxtql.event_info
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="EventInfoMap">
+        select
+          id, event_type, event_date, event_location, event_desc, oldperson_id
+        from qyxtql.event_info
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="eventType != null">
+                and event_type = #{eventType}
+            </if>
+            <if test="eventDate != null">
+                and event_date = #{eventDate}
+            </if>
+            <if test="eventLocation != null and eventLocation != ''">
+                and event_location = #{eventLocation}
+            </if>
+            <if test="eventDesc != null and eventDesc != ''">
+                and event_desc = #{eventDesc}
+            </if>
+            <if test="oldpersonId != null">
+                and oldperson_id = #{oldpersonId}
+            </if>
+        </where>
+    </select>
+    <select id="countAll" resultType="java.lang.Integer">
+        select count(*) from event_info
+    </select>
+
+    <select id="count0" resultType="java.lang.Integer">
+        select count(*) from event_info where event_type=0
+    </select>
+    <select id="count1" resultType="java.lang.Integer">
+        select count(*) from event_info where event_type=1
+    </select>
+    <select id="count2" resultType="java.lang.Integer">
+        select count(*) from event_info where event_type=2
+    </select>
+    <select id="count3" resultType="java.lang.Integer">
+        select count(*) from event_info where event_type=3
+    </select>
+    <select id="count4" resultType="java.lang.Integer">
+        select count(*) from event_info where event_type=4
+    </select>
+    <select id="countByTime" resultType="java.lang.Integer">
+        select count(*) from event_info where event_type=#{param1} and event_date between #{param2} and #{param3}
+    </select>
+    <select id="countByLocation" resultType="java.lang.Integer">
+        select count(*) from event_info where event_type=#{param1} and event_location=#{param2}
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into qyxtql.event_info(event_type, event_date, event_location, event_desc, oldperson_id)
+        values (#{eventType}, #{eventDate}, #{eventLocation}, #{eventDesc}, #{oldpersonId})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update qyxtql.event_info
+        <set>
+            <if test="eventType != null">
+                event_type = #{eventType},
+            </if>
+            <if test="eventDate != null">
+                event_date = #{eventDate},
+            </if>
+            <if test="eventLocation != null and eventLocation != ''">
+                event_location = #{eventLocation},
+            </if>
+            <if test="eventDesc != null and eventDesc != ''">
+                event_desc = #{eventDesc},
+            </if>
+            <if test="oldpersonId != null">
+                oldperson_id = #{oldpersonId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from qyxtql.event_info where id = #{id}
+    </delete>
+
+</mapper>

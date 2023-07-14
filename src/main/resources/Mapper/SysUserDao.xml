@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.net.luoma.aicarsystemserver.dao.SysUserDao">
+
+    <resultMap type="cn.net.luoma.aicarsystemserver.entity.SysUser" id="SysUserMap">
+        <result property="id" column="ID" jdbcType="INTEGER"/>
+        <result property="orgId" column="ORG_ID" jdbcType="INTEGER"/>
+        <result property="clientId" column="CLIENT_ID" jdbcType="INTEGER"/>
+        <result property="username" column="UserName" jdbcType="VARCHAR"/>
+        <result property="password" column="Password" jdbcType="VARCHAR"/>
+        <result property="realName" column="REAL_NAME" jdbcType="VARCHAR"/>
+        <result property="sex" column="SEX" jdbcType="VARCHAR"/>
+        <result property="email" column="EMAIL" jdbcType="VARCHAR"/>
+        <result property="phone" column="PHONE" jdbcType="VARCHAR"/>
+        <result property="mobile" column="MOBILE" jdbcType="VARCHAR"/>
+        <result property="description" column="DESCRIPTION" jdbcType="VARCHAR"/>
+        <result property="isactive" column="ISACTIVE" jdbcType="VARCHAR"/>
+        <result property="created" column="CREATED" jdbcType="TIMESTAMP"/>
+        <result property="createby" column="CREATEBY" jdbcType="INTEGER"/>
+        <result property="updated" column="UPDATED" jdbcType="TIMESTAMP"/>
+        <result property="updateby" column="UPDATEBY" jdbcType="INTEGER"/>
+        <result property="remove" column="REMOVE" jdbcType="VARCHAR"/>
+        <result property="datafilter" column="DATAFILTER" jdbcType="VARCHAR"/>
+        <result property="theme" column="theme" jdbcType="VARCHAR"/>
+        <result property="defaultpage" column="defaultpage" jdbcType="VARCHAR"/>
+        <result property="logoimage" column="logoimage" jdbcType="VARCHAR"/>
+        <result property="qqopenid" column="qqopenid" jdbcType="VARCHAR"/>
+        <result property="appversion" column="appversion" jdbcType="VARCHAR"/>
+        <result property="jsonauth" column="jsonauth" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryByAccount" resultMap="SysUserMap">
+        select *
+        from qyxtql.sys_user
+        where  UserName= #{username} and Password = #{password}
+    </select>
+    <select id="queryById" resultMap="SysUserMap">
+        select *
+        from qyxtql.sys_user
+        where  ID=#{id}
+    </select>
+    <select id="queryByName" resultMap="SysUserMap">
+         select *
+        from qyxtql.sys_user
+        where  UserName=#{username}
+    </select>
+
+    <!--新增一项-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into qyxtql.sys_user(ORG_ID, CLIENT_ID, UserName, Password, REAL_NAME, SEX, EMAIL, PHONE, MOBILE, DESCRIPTION, ISACTIVE, CREATED, CREATEBY, UPDATED, UPDATEBY, REMOVE, DATAFILTER, theme, defaultpage, logoimage, qqopenid, appversion, jsonauth)
+        values (#{orgId}, #{clientId}, #{username}, #{password}, #{realName}, #{sex}, #{email}, #{phone}, #{mobile}, #{description}, #{isactive}, #{created}, #{createby}, #{updated}, #{updateby}, #{remove}, #{datafilter}, #{theme}, #{defaultpage}, #{logoimage}, #{qqopenid}, #{appversion}, #{jsonauth})
+    </insert>
+
+    <!--通过主键修改密码-->
+    <update id="update">
+        update qyxtql.sys_user
+        <set>
+            <if test="orgId != null">
+                ORG_ID = #{orgId},
+            </if>
+            <if test="clientId != null">
+                CLIENT_ID = #{clientId},
+            </if>
+            <if test="username != null and username != ''">
+                UserName = #{username},
+            </if>
+            <if test="password != null and password != ''">
+                Password = #{password},
+            </if>
+            <if test="realName != null and realName != ''">
+                REAL_NAME = #{realName},
+            </if>
+            <if test="sex != null and sex != ''">
+                SEX = #{sex},
+            </if>
+            <if test="email != null and email != ''">
+                EMAIL = #{email},
+            </if>
+            <if test="phone != null and phone != ''">
+                PHONE = #{phone},
+            </if>
+            <if test="mobile != null and mobile != ''">
+                MOBILE = #{mobile},
+            </if>
+            <if test="description != null and description != ''">
+                DESCRIPTION = #{description},
+            </if>
+            <if test="isactive != null and isactive != ''">
+                ISACTIVE = #{isactive},
+            </if>
+            <if test="created != null">
+                CREATED = #{created},
+            </if>
+            <if test="createby != null">
+                CREATEBY = #{createby},
+            </if>
+            <if test="updated != null">
+                UPDATED = #{updated},
+            </if>
+            <if test="updateby != null">
+                UPDATEBY = #{updateby},
+            </if>
+            <if test="remove != null and remove != ''">
+                REMOVE = #{remove},
+            </if>
+            <if test="datafilter != null and datafilter != ''">
+                DATAFILTER = #{datafilter},
+            </if>
+            <if test="theme != null and theme != ''">
+                theme = #{theme},
+            </if>
+            <if test="defaultpage != null and defaultpage != ''">
+                defaultpage = #{defaultpage},
+            </if>
+            <if test="logoimage != null and logoimage != ''">
+                logoimage = #{logoimage},
+            </if>
+            <if test="qqopenid != null and qqopenid != ''">
+                qqopenid = #{qqopenid},
+            </if>
+            <if test="appversion != null and appversion != ''">
+                appversion = #{appversion},
+            </if>
+            <if test="jsonauth != null and jsonauth != ''">
+                jsonauth = #{jsonauth},
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+</mapper>
